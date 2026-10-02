@@ -1,0 +1,33 @@
+ 
+SELECT
+    customer_name,
+    COALESCE(
+        primary_phone,
+        alternate_phone,
+        emergency_phone,
+        'Not Available'
+    ) AS contact_phone
+FROM Customers;
+
+
+-- Example:
+-- | customer_name | primary_phone | alternate_phone | emergency_phone | contact_phone |
+-- |---------------|---------------|-----------------|-----------------|---------------|
+-- | Aditi         | 9876543210    | NULL            | NULL            | 9876543210    |
+-- | Rahul         | NULL          | 9123456780      | NULL            | 9123456780    |
+-- | Simran        | NULL          | NULL            | 9988776655      | 9988776655    |
+-- | Arjun         | NULL          | NULL            | NULL            | Not Available |
+
+
+-- Key takeaway:
+--
+-- COALESCE() returns the first non-NULL value.
+--
+-- COALESCE(primary_phone, alternate_phone, emergency_phone,
+--          'Not Available')
+--
+-- Priority:
+-- 1. primary_phone
+-- 2. alternate_phone
+-- 3. emergency_phone
+-- 4. 'Not Available' if all are NULL
