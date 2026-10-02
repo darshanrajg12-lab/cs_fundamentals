@@ -1,0 +1,40 @@
+
+
+SELECT
+    COUNT(*) AS total_rows,
+    COUNT(email) AS non_null_emails,
+    COUNT(DISTINCT email) AS unique_non_null_emails
+FROM Customers;
+
+
+-- Example:
+-- Suppose Customers contains:
+--
+-- | email          |
+-- |----------------|
+-- | a@gmail.com    |
+-- | b@gmail.com    |
+-- | a@gmail.com    |
+-- | NULL           |
+-- | c@gmail.com    |
+-- | NULL           |
+--
+-- Result:
+--
+-- | total_rows | non_null_emails | unique_non_null_emails |
+-- |------------|-----------------|------------------------|
+-- | 6          | 4               | 3                      |
+
+
+-- Key differences:
+--
+-- COUNT(*)
+-- → Counts EVERY row, including rows containing NULL values.
+--
+-- COUNT(email)
+-- → Counts only rows where email is NOT NULL.
+-- → Includes duplicate email values.
+--
+-- COUNT(DISTINCT email)
+-- → Counts only UNIQUE, non-NULL email values.
+-- → Ignores duplicates and NULL values.
