@@ -1,0 +1,40 @@
+
+-- Logical execution order:
+-- 1. FROM
+-- 2. WHERE
+-- 3. GROUP BY
+-- 4. HAVING
+-- 5. SELECT
+-- 6. ORDER BY
+--
+-- Since WHERE is evaluated before SELECT,
+-- the SELECT alias does not exist when WHERE runs.
+
+-- ❌ Invalid in most SQL databases:
+SELECT
+    salary * 12 AS annual_salary
+FROM Employees
+WHERE annual_salary > 600000;
+
+
+-- ✅ Solution 1: Repeat the expression
+SELECT
+    salary * 12 AS annual_salary
+FROM Employees
+WHERE salary * 12 > 600000;
+
+
+-- ✅ Solution 2: Use a subquery
+SELECT
+    annual_salary
+FROM (
+    SELECT salary * 12 AS annual_salary
+    FROM Employees
+) AS employee_data
+WHERE annual_salary > 600000;
+
+
+-- Key takeaway:
+-- SELECT aliases are created during SELECT evaluation,
+-- but WHERE has already been evaluated.
+-- Therefore, the alias cannot normally be used in WHERE.
