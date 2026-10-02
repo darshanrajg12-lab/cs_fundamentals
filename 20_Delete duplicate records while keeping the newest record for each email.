@@ -1,0 +1,51 @@
+
+WITH ranked AS (
+    SELECT
+        customer_id,
+        ROW_NUMBER() OVER (
+            PARTITION BY email
+            ORDER BY created_at DESC
+        ) AS rn
+    FROM Customer_Records
+)
+
+DELETE FROM Customer_Records
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM ranked
+    WHERE rn > 1
+);
+
+
+-- Result:
+--
+-- Before:
+-- | customer_id | customer_name | email           | created_at        |
+-- |-------------|---------------|-----------------|-------------------|
+-- | 301         | Nikhil Jain   | nikhil@email.com| 2024-01-12 10:15 |
+-- | 302         | Sara Ali      | sara@email.com  | 2024-02-03 09:10 |
+-- | 303         | Nikhil Jain   | nikhil@email.com| 2024-05-21 18:30 |
+-- | 304         | Dev Patel     | dev@email.com   | 2024-06-11 12:45 |
+--
+-- After:
+-- | customer_id | customer_name | email           | created_at        |
+-- |-------------|---------------|-----------------|-------------------|
+-- | 302         | Sara Ali      | sara@email.com  | 2024-02-03 09:10 |
+-- | 303         | Nikhil Jain   | nikhil@email.com| 2024-05-21 18:30 |
+-- | 304         | Dev Patel     | dev@email.com   | 2024-06-11 12:45 |
+--
+-- Customer 301 is deleted because customer 303
+-- is the newest record for the same email.
+
+
+-- Key idea:
+--
+-- ROW_NUMBER() assigns:
+-- rn = 1 → newest record → KEEP
+-- rn > 1 → older duplicate → DELETE
+--
+-- PARTITION BY email
+-- → Finds duplicates separately for each email.
+--
+-- ORDER BY created_at DESC
+-- → Puts the newest record first.
