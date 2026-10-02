@@ -1,0 +1,14 @@
+
+-- GRANT SELECT allows the user to view/read the table.
+-- Do not grant INSERT, UPDATE, or DELETE permissions.
+
+GRANT SELECT
+ON Employees
+TO intern_user;
+
+
+-- Result / Permission:
+-- intern_user -> SELECT       : ALLOWED
+-- intern_user -> INSERT       : NOT ALLOWED
+-- intern_user -> UPDATE       : NOT ALLOWED
+-- intern_user -> DELETE       : NOT ALLOWED
