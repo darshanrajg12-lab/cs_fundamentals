@@ -1,0 +1,16 @@
+SELECT
+    o.order_id,
+    c.customer_name,
+    o.amount,
+    o.status
+FROM Orders o
+JOIN Customers c
+    ON o.customer_id = c.customer_id;
+
+| order_id | customer_name | amount | status    |
+|----------|---------------|--------|-----------|
+| 501      | Aditi Sharma  | 2400   | Delivered |
+| 502      | Aditi Sharma  | 3200   | Delivered |
+| 503      | Rahul Verma   | 1800   | Delivered |
+| 504      | Rahul Verma   | 4100   | Pending   |
+| 505      | Simran Kaur   | 950    | Cancelled |
