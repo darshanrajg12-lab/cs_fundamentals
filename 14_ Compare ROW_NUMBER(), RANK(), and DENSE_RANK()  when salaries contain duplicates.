@@ -1,0 +1,45 @@
+
+
+SELECT
+    employee,
+    salary,
+
+    ROW_NUMBER() OVER (
+        ORDER BY salary DESC
+    ) AS row_no,
+
+    RANK() OVER (
+        ORDER BY salary DESC
+    ) AS rank_no,
+
+    DENSE_RANK() OVER (
+        ORDER BY salary DESC
+    ) AS dense_rank_no
+
+FROM Employees;
+
+
+-- Result:
+-- | employee | salary | row_no | rank_no | dense_rank_no |
+-- |----------|--------|--------|---------|---------------|
+-- | Aman     | 90000  | 1      | 1       | 1             |
+-- | Neha     | 80000  | 2      | 2       | 2             |
+-- | Ravi     | 80000  | 3      | 2       | 2             |
+-- | Simran   | 70000  | 4      | 4       | 3             |
+
+
+-- Key differences:
+--
+-- ROW_NUMBER():
+-- Gives every row a unique sequential number.
+-- Ties still receive different numbers.
+--
+-- RANK():
+-- Gives tied rows the same rank.
+-- Leaves gaps after ties.
+-- Example: 1, 2, 2, 4
+--
+-- DENSE_RANK():
+-- Gives tied rows the same rank.
+-- Does not leave gaps.
+-- Example: 1, 2, 2, 3
