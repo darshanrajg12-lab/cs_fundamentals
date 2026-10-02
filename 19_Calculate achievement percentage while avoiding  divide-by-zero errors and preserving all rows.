@@ -1,0 +1,31 @@
+
+
+SELECT
+    employee_id,
+    achieved_sales * 100.0 / NULLIF(target_sales, 0) AS achievement_pct
+FROM Sales_Targets;
+
+
+-- Example Result:
+--
+-- | employee_id | achieved_sales | target_sales | achievement_pct |
+-- |-------------|----------------|--------------|-----------------|
+-- | 101         | 70             | 100          | 70.00           |
+-- | 102         | 70             | 0            | NULL            |
+-- | 103         | 80             | 100          | 80.00           |
+
+
+-- Why NULLIF()?
+--
+-- NULLIF(target_sales, 0)
+-- → Converts 0 into NULL.
+--
+-- 70 / NULL → NULL
+-- instead of:
+-- 70 / 0 → divide-by-zero error.
+--
+-- The row is still preserved; only the percentage becomes NULL.
+--
+-- Key takeaway:
+-- NULLIF(column, 0) is a common SQL technique for
+-- safely handling division by zero.
