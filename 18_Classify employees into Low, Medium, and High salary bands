@@ -1,0 +1,32 @@
+
+SELECT
+    employee_name,
+    salary,
+    CASE
+        WHEN salary >= 80000 THEN 'High'
+        WHEN salary >= 50000 THEN 'Medium'
+        ELSE 'Low'
+    END AS salary_band
+FROM Employees;
+
+
+-- Example Result:
+--
+-- | employee_name | salary | salary_band |
+-- |---------------|--------|-------------|
+-- | Aman          | 90000  | High        |
+-- | Neha          | 80000  | High        |
+-- | Ravi          | 60000  | Medium      |
+-- | Simran        | 40000  | Low         |
+
+
+-- Why CASE instead of IF?
+--
+-- CASE is standard SQL and is widely supported across databases.
+-- It works directly inside SELECT, ORDER BY, GROUP BY,
+-- and aggregate expressions.
+--
+-- IF() is database-specific and is generally less portable.
+--
+-- CASE is therefore preferred for row-wise conditional
+-- classification in SQL queries.
