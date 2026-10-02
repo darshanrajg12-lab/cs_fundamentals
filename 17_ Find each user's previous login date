@@ -1,0 +1,35 @@
+
+
+SELECT
+    user_id,
+    login_date,
+    LAG(login_date) OVER (
+        PARTITION BY user_id
+        ORDER BY login_date
+    ) AS previous_login
+FROM User_Logins;
+
+
+-- Result:
+-- | user_id | login_date | previous_login |
+-- |---------|------------|----------------|
+-- | 1       | 2024-07-01 | NULL           |
+-- | 1       | 2024-07-02 | 2024-07-01     |
+-- | 1       | 2024-07-03 | 2024-07-02     |
+-- | 2       | 2024-07-01 | NULL           |
+-- | 2       | 2024-07-03 | 2024-07-01     |
+-- | 3       | 2024-07-02 | NULL           |
+
+
+-- Key takeaway:
+--
+-- LAG() returns a value from the previous row.
+--
+-- PARTITION BY user_id
+-- → Calculates previous login separately for each user.
+--
+-- ORDER BY login_date
+-- → Determines the chronological order of logins.
+--
+-- The first login for each user has no previous login,
+-- so LAG() returns NULL.
