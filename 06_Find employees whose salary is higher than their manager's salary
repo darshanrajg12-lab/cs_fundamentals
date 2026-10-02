@@ -1,0 +1,10 @@
+SELECT
+    e.employee_name,
+    e.salary,
+    m.employee_name AS manager_name,
+    m.salary AS manager_salary
+FROM Employees e
+JOIN Employees m
+    ON e.manager_id = m.employee_id
+WHERE e.salary > m.salary;
+#
