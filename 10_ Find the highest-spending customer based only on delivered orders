@@ -1,0 +1,17 @@
+
+SELECT
+    c.customer_name,
+    SUM(o.amount) AS total_spending
+FROM Customers c
+JOIN Orders o
+    ON c.customer_id = o.customer_id
+WHERE o.status = 'Delivered'
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_spending DESC
+LIMIT 1;
+
+
+-- Result:
+-- | customer_name | total_spending |
+-- |---------------|----------------|
+-- | Aditi Sharma  | 5600           |
