@@ -1,0 +1,26 @@
+
+
+-- TRUNCATE:
+-- Removes all rows quickly and keeps the table structure.
+-- Generally faster than DELETE for removing the entire table.
+
+TRUNCATE TABLE Employees;
+
+
+-- DELETE:
+-- Also removes all rows while keeping the table structure.
+-- However, DELETE processes rows individually and is generally
+-- slower for a full-table cleanup.
+-- It can also be used with a WHERE clause to remove specific rows.
+
+DELETE FROM Employees;
+
+
+-- Example: DELETE only specific rows
+-- DELETE FROM Employees
+-- WHERE department = 'Sales';
+
+
+-- Key difference:
+-- TRUNCATE -> Best suited for removing ALL rows quickly.
+-- DELETE   -> Best suited when you need row-level control/filtering.
