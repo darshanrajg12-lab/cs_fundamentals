@@ -1,0 +1,31 @@
+# Advanced SQL Theoretical Interview Questions & Answers
+
+### 1. What is the difference between WHERE and HAVING at the architectural level of query execution?
+* **Answer**: The difference lies in the SQL Order of Execution. WHERE is executed before rows are grouped (GROUP BY). It filters individual rows straight from the disk or cache, preventing them from ever entering memory for aggregation. It cannot be used with aggregate functions (e.g., SUM()). HAVING is executed after rows have been grouped and aggregated. It filters the resulting aggregated buckets in memory. 
+
+### 2. Explain the difference between RANK(), DENSE_RANK(), and ROW_NUMBER().
+* **Answer**: All three are window functions used to assign sequential integers to rows, but they handle duplicate values (ties) differently. ROW_NUMBER() assigns a unique, sequential number to every single row, regardless of ties (e.g., 1, 2, 3, 4). RANK() assigns the same rank to ties, but skips subsequent ranks to account for the duplicates (e.g., 1, 2, 2, 4). DENSE_RANK() assigns the same rank to ties, but does not skip any ranks (e.g., 1, 2, 2, 3).
+
+### 3. What is an Index, and how does a B-Tree Index differ from a Hash Index?
+* **Answer**: An index is a data structure that improves data retrieval speeds at the cost of additional write time and storage space. A B-Tree Index organises data in a balanced tree structure. It supports exact matches (=), range queries (>, <), and sorting (ORDER BY) because the data is kept sequentially ordered. A Hash Index uses a hash function to map keys to specific buckets. It is incredibly fast (O(1) complexity) for exact lookups (=), but completely useless for range queries or sorting because the hashed data has no sequential order.
+
+### 4. What are ACID properties in a Database Management System?
+* **Answer**: ACID ensures database transactions are processed reliably. Atomicity is the "All-or-Nothing" rule where if one part of a transaction fails, the entire transaction is rolled back. Consistency ensures a transaction brings the database from one valid state to another, maintaining all schema constraints and rules. Isolation ensures concurrent execution of transactions leaves the database in the same state as if they were executed sequentially. Durability guarantees that once a transaction is committed, it remains saved even in the event of a system crash or power loss.
+
+### 5. Explain Transaction Isolation Levels and the phenomena they prevent.
+* **Answer**: There are four standard isolation levels ordered from lowest to highest isolation. Read Uncommitted is the lowest level and allows Dirty Reads (reading uncommitted data from another transaction). Read Committed prevents Dirty Reads, but allows Non-Repeatable Reads (rereading the same data within a transaction returns different values because another transaction updated it). Repeatable Read prevents Non-Repeatable Reads, but allows Phantom Reads (rereading data returns new rows inserted by another concurrent transaction). Serializable is the highest level, completely isolating transactions to execute them as if they were strictly sequential, preventing all three phenomena.
+
+### 6. What is a Correlated Subquery, and why can it cause performance issues?
+* **Answer**: A correlated subquery is a nested query that depends on values from the outer query for its execution. Because of this dependency, the database engine cannot run the subquery independently. Instead, it must evaluate the subquery once for every single row processed by the outer query. This changes the computational complexity from O(N) to O(N²), causing severe performance bottlenecks on large datasets.
+
+### 7. What is Database Normalisation, and what is the core purpose of 3NF?
+* **Answer**: Normalisation is the structural process of organising data to eliminate data redundancy and undesirable anomalies (insert, update, delete). Third Normal Form (3NF) requires a table to be in 2NF, and ensures that all non-primary key attributes are dependent only on the primary key. It eliminates transitive dependencies (e.g., if Column A determines Column B, and Column B determines Column C, then Column C should not be in the same table as Column A).
+
+### 8. What is a Recursive CTE (Common Table Expression) and when should you use it?
+* **Answer**: A recursive CTE is a query that references itself. It consists of an Anchor Member (the initial query that starts the loop) and a Recursive Member (the query that loops and adds data), joined by a UNION or UNION ALL. It terminates automatically when the recursive loop returns zero rows. It is essential for querying hierarchical or graph-structured data, such as organizational charts (manager-employee relationships) or network routing paths.
+
+### 9. What is the difference between a Clustered Index and a Non-Clustered Index?
+* **Answer**: A Clustered Index determines the physical, structural order of the actual rows inside the table on the hard drive. Because physical data can only be sorted one way, a table can have only one clustered index (usually the Primary Key). A Non-Clustered Index is a separate physical structure containing a pointer (row locator) back to the actual data rows, working like an index at the back of a textbook. A table can have multiple non-clustered indexes.
+
+### 10. What is a Window Frame (ROWS vs RANGE), and how do they differ?
+* **Answer**: A window frame specifies a moving subset of rows within a partition used to calculate a window function (like a running total). ROWS evaluates physical rows relative to the current row index (e.g., ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) and treats duplicate values as distinct rows. RANGE evaluates values logically based on the values in the ORDER BY clause. If multiple rows share the exact same value in the sorting column, RANGE treats them as a single combined group and calculates them together.
