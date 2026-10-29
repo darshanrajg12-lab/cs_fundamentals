@@ -1,4 +1,4 @@
-
+explain in star format 
 
 -- TRUNCATE:
 -- Removes all rows quickly and keeps the table structure.
