@@ -9,7 +9,7 @@ LEFT JOIN Orders o
 WHERE o.order_id IS NULL;
 
 
--- Result:
+-- Result: always start from from select
 -- | customer_id | customer_name |
 -- |-------------|---------------|
 -- | 4           | Arjun Nair    |
