@@ -1,4 +1,4 @@
-
+start from select 
 SELECT
     c.customer_name,
     SUM(o.amount) AS total_spending
