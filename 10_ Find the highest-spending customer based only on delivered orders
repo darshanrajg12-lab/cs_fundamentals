@@ -9,7 +9,7 @@ WHERE o.status = 'Delivered'
 GROUP BY c.customer_id, c.customer_name
 ORDER BY total_spending DESC
 LIMIT 1;
-
+// revision
 
 -- Result:
 -- | customer_name | total_spending |
